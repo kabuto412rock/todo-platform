@@ -59,9 +59,13 @@ const loginUser = asyncHandler(async (req, res) => {
 // @route   GET /api/users/:userId
 // @access  Private
 const showUser = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "Show user's profile",
-  });
+  const user = {
+    id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+  };
+
+  res.status(200).json(user);
 });
 
 // Generate token
