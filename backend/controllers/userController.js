@@ -46,24 +46,46 @@ const registerUser = asyncHandler(async (req, res) => {
     throw new Error("Invalid user data");
   }
 });
-// @desc    Login user
+// @desc    Login a user
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "login user",
-  });
+  const { email, password } = req.body;
+  const user = await User.findOne({ email });
+
+  // Check user and passwords match
+  if (user && (await bcrypt.compare(password, user.password))) {
+    res.status(200).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      token: generateToken(user._id),
+    });
+  } else {
+    res.status(401);
+    throw new Error("Invalid credentials");
+  }
 });
 
 // @desc    Show user's profile
 // @route   GET /api/users/:userId
 // @access  Private
 const showUser = asyncHandler(async (req, res) => {
-  res.status(200).json({
-    message: "Show user's profile",
-  });
+  const user = {
+    id: req.user._id,
+    name: req.user.name,
+    email: req.user.email,
+  };
+
+  res.status(200).json(user);
 });
 
+// Generate token
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
 module.exports = {
   registerUser,
   loginUser,
