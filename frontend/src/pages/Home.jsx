@@ -7,12 +7,12 @@ function Home() {
 
   return (
     <div
-      className="hero"
+      className="hero "
       style={{
         backgroundImage: `url(${homeImg})`,
       }}
     >
-      <div className="hero-overlay bg-opacity-50 "></div>
+      <div className="hero-overlay bg-yellow-100  bg-opacity-20 "></div>
       <div className="hero-content text-center text-neutral-content">
         <div className="max-w-md text-indigo-100">
           <h1 className="mb-5 text-6xl font-bold">哈囉！工程師</h1>

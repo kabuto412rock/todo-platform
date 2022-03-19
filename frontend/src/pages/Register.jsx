@@ -5,6 +5,7 @@ import { FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
 import { register, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
+import Container from "../components/Container";
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -62,7 +63,7 @@ function Register() {
   }
 
   return (
-    <div className=" p-6  w-full  bg-slate-300 ">
+    <Container>
       <div className="m-auto">
         <div className="text-center mb-2"> 圖肚平台</div>
 
@@ -132,7 +133,7 @@ function Register() {
           </div>
         </div>
       </div>
-    </div>
+    </Container>
   );
 }
 

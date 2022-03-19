@@ -1,5 +1,17 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { logout, reset } from "../features/auth/authSlice";
 function Header() {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  const onLogout = () => {
+    dispatch(logout());
+    dispatch(reset());
+    navigate("/");
+  };
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -25,14 +37,22 @@ function Header() {
             tabIndex="0"
             className="p-2 shadow  menu menu-horizontal p-0 bg-base-100 rounded-box"
           >
-            <li>
-              <Link className="justify-between" to="/login">
-                登入
-              </Link>
-            </li>
-            <li>
-              <Link to="/register">註冊</Link>
-            </li>
+            {user ? (
+              <li>
+                <button onClick={onLogout}>登出</button>
+              </li>
+            ) : (
+              <>
+                <li>
+                  <Link className="justify-between" to="/login">
+                    登入
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/register">註冊</Link>
+                </li>
+              </>
+            )}
           </ul>
         </div>
       </div>
