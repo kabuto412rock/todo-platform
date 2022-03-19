@@ -5,6 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node backend/server.js",
+    "client": "npm run start --prefix frontend",
     "dev": "nodemon backend/server.js"
   },
   "author": "zongjia",

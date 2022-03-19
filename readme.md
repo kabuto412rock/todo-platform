@@ -10,5 +10,6 @@ $ yarn add --dev nodemon
 # Create the backend's directory
 $ mkdir backend
 
-
+# Create the frontend's directory by CRA(CreateReactApp)
+$ npx create-react-app frontend --template redux
 ```
