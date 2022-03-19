@@ -1,36 +1,65 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { FaUser } from "react-icons/fa";
+import { FaSignInAlt, FaUser } from "react-icons/fa";
 import { useSelector, useDispatch } from "react-redux";
-import { register, reset } from "../features/auth/authSlice";
+import { login, register, reset } from "../features/auth/authSlice";
 import Spinner from "../components/Spinner";
 import Container from "../components/Container";
 
 function Login() {
   const [formData, setFormData] = useState({
-    name: "",
+    email: "",
     password: "",
   });
-  const { name, email, password } = formData;
+  const { email, password } = formData;
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const { user, isLoading, isSuccess, isError, message } = useSelector(
+    (state) => state.auth
+  );
+
+  useEffect(() => {
+    // Login fail show login error toast
+    if (isError) {
+      toast.error(message);
+    }
+
+    // Redirect when logged in
+    if (isSuccess || user) {
+      navigate("/");
+    }
+
+    dispatch(reset());
+  });
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !password) {
-      toast.error("qweqew");
+    if (!email || !password) {
+      toast.error("帳號或密碼不得為空");
       return;
     }
+    dispatch(login(formData));
   };
+
   const onFieldChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
   };
+
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return (
     <Container>
       <div className="m-auto">
-        <div className="text-center mb-2"> 圖肚平台</div>
-
         <div className="m-auto card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body">
+            <div className="card-title ">
+              <FaSignInAlt className="mr-2 " />
+              <div className="">登入</div>
+            </div>
             <form onSubmit={onSubmit}>
               <div className="form-control">
                 <label className="label">
@@ -61,14 +90,9 @@ function Login() {
                   onChange={onFieldChange}
                   required
                 />
-                {/* <label className="label">
-                    <a href="#" className="label-text-alt link link-hover">
-                      Forgot password?
-                    </a>
-                  </label> */}
               </div>
               <div className="form-control mt-6 flex">
-                <button className="btn btn-primary">建立一個新帳號</button>
+                <button className="btn btn-primary">開始todo</button>
               </div>
             </form>
           </div>

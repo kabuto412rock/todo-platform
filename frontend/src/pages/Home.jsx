@@ -12,9 +12,9 @@ function Home() {
         backgroundImage: `url(${homeImg})`,
       }}
     >
-      <div className="hero-overlay bg-yellow-100  bg-opacity-20 "></div>
+      <div className="hero-overlay bg-stone-500  bg-opacity-50 "></div>
       <div className="hero-content text-center text-neutral-content">
-        <div className="max-w-md text-indigo-100">
+        <div className="max-w-md text-stone-100">
           <h1 className="mb-5 text-6xl font-bold">哈囉！工程師</h1>
           <p className="mb-5 text-md">
             todo-platform(圖肚平台)是一個提供工程師紀錄成長分享的平台，一個在{" "}

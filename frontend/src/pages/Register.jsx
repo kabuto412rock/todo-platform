@@ -65,10 +65,13 @@ function Register() {
   return (
     <Container>
       <div className="m-auto">
-        <div className="text-center mb-2"> 圖肚平台</div>
-
         <div className="m-auto card flex-shrink-0 w-full max-w-sm shadow-2xl bg-base-100">
           <div className="card-body">
+            <div className="card-title ">
+              <FaUser className="mr-2 " />
+              <div className="">註冊</div>
+            </div>
+
             <form onSubmit={onSubmit}>
               <div className="form-control">
                 <label className="label">
