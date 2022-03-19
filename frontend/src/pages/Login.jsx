@@ -17,9 +17,9 @@ function Login() {
   const onSubmit = (e) => {
     e.preventDefault();
     if (!name || !email || !password) {
+      toast.error("qweqew");
       return;
     }
-    console.log(`name=${name}, email=${email}, password=${password}`);
   };
   const onFieldChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.id]: e.target.value }));
@@ -42,6 +42,7 @@ function Login() {
                   className="input input-bordered"
                   value={email}
                   id="email"
+                  autoComplete="username"
                   onChange={onFieldChange}
                   required
                 />
@@ -56,6 +57,7 @@ function Login() {
                   className="input input-bordered"
                   value={password}
                   id="password"
+                  autoComplete="current-password"
                   onChange={onFieldChange}
                   required
                 />

@@ -80,6 +80,7 @@ function Register() {
                   className="input input-bordered"
                   value={email}
                   id="email"
+                  autocomplete="username"
                   onChange={onFieldChange}
                   required
                 />
@@ -109,6 +110,7 @@ function Register() {
                   value={password}
                   id="password"
                   onChange={onFieldChange}
+                  autocomplete="new-password"
                   required
                 />
               </div>{" "}
@@ -123,6 +125,7 @@ function Register() {
                   value={password2}
                   id="password2"
                   onChange={onFieldChange}
+                  autocomplete="new-password"
                   required
                 />
               </div>
