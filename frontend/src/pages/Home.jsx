@@ -29,7 +29,7 @@ function Home() {
           </p>
           <button
             className="btn btn-primary"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/new-todo")}
           >
             開始分享
           </button>
