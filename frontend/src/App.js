@@ -2,7 +2,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
+import PrivateRoute from "./components/PrivateRoute";
 
+import NewTodo from "./pages/NewTodo";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -18,6 +20,9 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
+              <Route path="new-todo" element={<PrivateRoute />}>
+                <Route path="/new-todo" element={<NewTodo />} />
+              </Route>
             </Routes>
           </div>
         </div>

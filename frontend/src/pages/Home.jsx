@@ -1,9 +1,11 @@
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 const homeImg = require("../assets/home2.jpg");
 
 function Home() {
   const navigate = useNavigate();
+  const { user } = useSelector((state) => state.auth);
 
   return (
     <div
@@ -29,7 +31,7 @@ function Home() {
           </p>
           <button
             className="btn btn-primary"
-            onClick={() => navigate("/login")}
+            onClick={() => navigate("/new-todo")}
           >
             開始分享
           </button>
