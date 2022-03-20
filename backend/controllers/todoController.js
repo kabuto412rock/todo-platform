@@ -1,4 +1,5 @@
 const asyncHandler = require("express-async-handler");
+const { status } = require("express/lib/response");
 const Todo = require("../models/todoModel");
 
 // @desc    Get todos
@@ -27,12 +28,15 @@ const getTodos = asyncHandler(async (req, res) => {
   limit = Math.round(limit * 1);
   if (limit < 0) {
     limit = 10;
+  } else if (limit > 20) {
+    limit = 20;
   }
   const todos = await Todo.paginate(
     {
       title: {
         $regex: new RegExp(q),
       },
+      $or: [{ status: "public" }, { author: req.user.id }],
     },
     { page, limit }
   );
