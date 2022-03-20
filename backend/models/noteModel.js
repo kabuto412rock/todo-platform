@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const mongoosePaginate = require("mongoose-paginate-v2");
 
-const todoSchema = mongoose.Schema(
+const noteSchema = mongoose.Schema(
   {
     author: {
       type: mongoose.Schema.Types.ObjectId,
@@ -31,6 +31,6 @@ const todoSchema = mongoose.Schema(
     timestamps: true,
   }
 );
-todoSchema.plugin(mongoosePaginate);
+noteSchema.plugin(mongoosePaginate);
 
-module.exports = mongoose.model("todo", todoSchema);
+module.exports = mongoose.model("note", noteSchema);

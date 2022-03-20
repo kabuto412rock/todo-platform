@@ -3,11 +3,11 @@ import Container from "../components/Container";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { createTodo, reset } from "../features/todo/todoSlice";
+import { createNote, reset } from "../features/note/noteSlice";
 
-const NewTodo = () => {
+const NewNote = () => {
   const { isLoading, isError, isSuccess, message } = useSelector(
-    (state) => state.todos
+    (state) => state.notes
   );
 
   const [formData, setFormData] = useState({
@@ -28,7 +28,7 @@ const NewTodo = () => {
 
     if (isSuccess) {
       dispatch(reset());
-      navigate("/todos");
+      navigate("/notes");
       return;
     }
 
@@ -44,7 +44,7 @@ const NewTodo = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     dispatch(
-      createTodo({
+      createNote({
         title,
         status,
         description,
@@ -54,10 +54,10 @@ const NewTodo = () => {
   };
   return (
     <Container>
-      <div className="card w-full md:w-md  max-w-4xl  bg-base-100 shadow-xl mx-auto ">
+      <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form onSubmit={onSubmit}>
-            <div className="card-title">新增Todo</div>
+            <div className="card-title">新增筆記</div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">標題</span>
@@ -69,6 +69,7 @@ const NewTodo = () => {
                 value={title}
                 id="title"
                 onChange={onChange}
+                required
               />
             </div>
 
@@ -85,6 +86,7 @@ const NewTodo = () => {
                     category: e.target.value,
                   }))
                 }
+                required
               >
                 <option>專案</option>
                 <option>興趣</option>
@@ -109,7 +111,7 @@ const NewTodo = () => {
               </label>
             </div>
 
-            <div className="form-control">
+            <div className="form-control mb-2">
               <label className="label">
                 <span className="label-text">內容</span>
               </label>
@@ -120,6 +122,7 @@ const NewTodo = () => {
                 id="description"
                 value={description}
                 onChange={onChange}
+                required
               ></textarea>
             </div>
             <div className="form-control">
@@ -132,4 +135,4 @@ const NewTodo = () => {
   );
 };
 
-export default NewTodo;
+export default NewNote;

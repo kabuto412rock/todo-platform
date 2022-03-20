@@ -29,12 +29,20 @@ function Home() {
             </a>
             開放原始碼的協作平台， 所以你也可以自己搭建屬於你的平台 。
           </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate("/new-todo")}
-          >
-            開始分享
-          </button>
+          <div class="flex space-x-3">
+            <button
+              className="btn btn-primary flex-1"
+              onClick={() => navigate("/new-note")}
+            >
+              新筆記
+            </button>
+            <button
+              className="btn btn-secondary flex-1"
+              onClick={() => navigate("/notes")}
+            >
+              筆記列表
+            </button>
+          </div>
         </div>
       </div>
     </div>

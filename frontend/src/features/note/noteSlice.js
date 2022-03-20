@@ -1,9 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import todoService from "./todoService";
+import noteService from "./noteService";
 
 const initialState = {
-  todos: [],
-  todo: {},
+  notes: [],
+  note: {},
   isError: false,
   isSuccess: false,
   isLoading: false,
@@ -11,13 +11,13 @@ const initialState = {
   message: "",
 };
 
-//Create new todo
-export const createTodo = createAsyncThunk(
-  "todos/create",
-  async (todoData, thunkAPI) => {
+//Create new note
+export const createNote = createAsyncThunk(
+  "notes/create",
+  async (noteData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await todoService.createTodo(todoData, token);
+      return await noteService.createNote(noteData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -30,13 +30,13 @@ export const createTodo = createAsyncThunk(
   }
 );
 
-//Get user  todos
-export const getTodos = createAsyncThunk(
-  "todos/getAll",
+//Get user  notes
+export const getNotes = createAsyncThunk(
+  "notes/getAll",
   async (_, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await todoService.getTodos(token);
+      return await noteService.getNotes(token);
     } catch (error) {
       const message =
         (error.response &&
@@ -49,13 +49,13 @@ export const getTodos = createAsyncThunk(
   }
 );
 
-//Get user  todo
-export const getTodo = createAsyncThunk(
-  "todos/get",
-  async (todoId, thunkAPI) => {
+//Get user  note
+export const getNote = createAsyncThunk(
+  "notes/get",
+  async (noteId, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await todoService.getTodo(todoId, token);
+      return await noteService.getNote(noteId, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -68,13 +68,13 @@ export const getTodo = createAsyncThunk(
   }
 );
 
-// Update todo
-export const updateTodo = createAsyncThunk(
-  "todos/close",
-  async (todoId, formData, thunkAPI) => {
+// Update note
+export const updateNote = createAsyncThunk(
+  "notes/close",
+  async (noteId, formData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await todoService.updateTodo(todoId, formData, token);
+      return await noteService.updateNote(noteId, formData, token);
     } catch (error) {
       const message =
         (error.response &&
@@ -87,60 +87,60 @@ export const updateTodo = createAsyncThunk(
   }
 );
 
-export const todoSlice = createSlice({
-  name: "todos",
+export const noteSlice = createSlice({
+  name: "notes",
   initialState,
   reducers: {
     reset: (state) => initialState,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createTodo.pending, (state) => {
+      .addCase(createNote.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(createTodo.fulfilled, (state, action) => {
+      .addCase(createNote.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
       })
-      .addCase(createTodo.rejected, (state, action) => {
+      .addCase(createNote.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(getTodos.pending, (state) => {
+      .addCase(getNotes.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getTodos.fulfilled, (state, action) => {
+      .addCase(getNotes.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.todos = action.payload;
+        state.notes = action.payload;
       })
-      .addCase(getTodos.rejected, (state, action) => {
+      .addCase(getNotes.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(getTodo.pending, (state) => {
+      .addCase(getNote.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(getTodo.fulfilled, (state, action) => {
+      .addCase(getNote.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.todo = action.payload;
+        state.note = action.payload;
       })
-      .addCase(getTodo.rejected, (state, action) => {
+      .addCase(getNote.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
       })
-      .addCase(updateTodo.pending, (state) => {
+      .addCase(updateNote.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateTodo.fulfilled, (state) => {
+      .addCase(updateNote.fulfilled, (state) => {
         state.isLoading = false;
         state.isSuccess = true;
       })
-      .addCase(updateTodo.rejected, (state, action) => {
+      .addCase(updateNote.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
@@ -148,5 +148,5 @@ export const todoSlice = createSlice({
   },
 });
 
-export const { reset } = todoSlice.actions;
-export default todoSlice.reducer;
+export const { reset } = noteSlice.actions;
+export default noteSlice.reducer;

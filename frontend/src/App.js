@@ -4,7 +4,8 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 
-import NewTodo from "./pages/NewTodo";
+import NewNote from "./pages/NewNote";
+import Notes from "./pages/Notes";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -20,8 +21,11 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
               <Route path="/register" element={<Register />} />
-              <Route path="new-todo" element={<PrivateRoute />}>
-                <Route path="/new-todo" element={<NewTodo />} />
+              <Route path="new-note" element={<PrivateRoute />}>
+                <Route path="/new-note" element={<NewNote />} />
+              </Route>
+              <Route path="notes" element={<PrivateRoute />}>
+                <Route path="/notes" element={<Notes />} />
               </Route>
             </Routes>
           </div>

@@ -30,12 +30,15 @@ function Header() {
           </div> */}
           <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src="https://api.lorem.space/image/face?hash=33791" />
+              <img
+                src="https://api.lorem.space/image/face?hash=33791"
+                alt="user-img"
+              />
             </div>
           </label>
           <ul
             tabIndex="0"
-            className="p-2 shadow  menu menu-horizontal p-0 bg-base-100 rounded-box"
+            className="shadow  menu menu-horizontal p-0 bg-base-100 rounded-box"
           >
             {user ? (
               <li>
