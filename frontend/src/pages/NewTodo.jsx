@@ -29,6 +29,7 @@ const NewTodo = () => {
     if (isSuccess) {
       dispatch(reset());
       navigate("/todos");
+      return;
     }
 
     dispatch(reset());
