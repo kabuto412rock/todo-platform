@@ -28,7 +28,14 @@ const getTodos = asyncHandler(async (req, res) => {
   if (limit < 0) {
     limit = 10;
   }
-  const todos = await Todo.paginate({}, { page, limit });
+  const todos = await Todo.paginate(
+    {
+      title: {
+        $regex: new RegExp(q),
+      },
+    },
+    { page, limit }
+  );
 
   res.status(200).json(todos);
 });
