@@ -8,6 +8,7 @@ import BackButton from "../components/BackButton";
 
 import NoteSearchBar from "../components/NoteSearchBar";
 import Container from "../components/Container";
+import NoteItem from "../components/NoteItem";
 
 function Notes() {
   const dispatch = useDispatch();
@@ -19,32 +20,32 @@ function Notes() {
     (state) => state.notes
   );
 
-  const { docs } = notesData;
+  const {
+    docs,
+    totalPages,
+    pagingCounter,
+    hasPrevPage,
+    hasNextPage,
+    prevPage,
+    nextPage,
+  } = notesData;
 
   useEffect(() => {
-    dispatch(reset());
     dispatch(getNotes({ page, limit, q }));
-
-    return () => {
-      dispatch(reset());
-    };
   }, [dispatch, limit, page, q]);
 
   const onSearch = (searchStr) => {
     setQ(searchStr);
+    setPage(1);
   };
-  const NoteItem = ({ note, index }) => (
-    <>
-      <tr>
-        <th>{index}</th>
-        <td className="">{note.category}</td>
-        <td title={note.title}>
-          <p className="truncate ...">{note.title}</p>
-        </td>
-        <td>{note.updatedAt}</td>
-      </tr>
-    </>
-  );
+
+  // Invoke when user click to request another page.
+  const handlePageClick = (event) => {
+    console.log(`event.selected = ${event.selected}`);
+    setPage(event.selected + 1);
+  };
+
+  isLoading && <Spinner />;
 
   return (
     <Container>
@@ -56,8 +57,10 @@ function Notes() {
             value={limit}
             onChange={(e) => {
               setLimit(e.target.value);
+              setPage(1);
             }}
           >
+            <option value="2">2</option>
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -66,32 +69,48 @@ function Notes() {
           筆
         </label>
       </div>
-      {isLoading ? (
-        <Spinner />
-      ) : (
-        <div className="overflow-x-auto">
-          <table className="table-compact table w-full">
-            <thead>
-              <tr>
-                <th className="w-5"></th>
-                <th className="w-10">分類</th>
-                <th className="w-50">標題</th>
-                <th className="">時間</th>
-              </tr>
-            </thead>
-            <tbody>
-              {docs.map((note, index) => (
-                <NoteItem
-                  note={note}
-                  index={(page - 1) * limit + index + 1}
-                  key={note._id}
-                />
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-      <div className="w-full">{/* TODO:需要建立切換頁面 */}</div>
+
+      <div className="overflow-x-auto mb-3">
+        <table className="table-compact table w-full">
+          <thead>
+            <tr>
+              <th className="w-5"></th>
+              <th className="w-10">分類</th>
+              <th className="w-50">標題</th>
+              <th className="">時間</th>
+            </tr>
+          </thead>
+          <tbody>
+            {docs.map((note, index) => (
+              <NoteItem
+                note={note}
+                index={(page - 1) * limit + index + 1}
+                key={note._id}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <div className="w-full flex justify-center">
+        {/* TODO:需要建立切換頁面 */}
+        <ReactPaginate
+          className="btn-group"
+          previousLinkClassName="btn btn-secondary"
+          nextLinkClassName="btn btn-secondary"
+          pageClassName="pageClassName  "
+          breakLabel="..."
+          nextLabel=" >"
+          activeLinkClassName="bg-primary "
+          onPageChange={handlePageClick}
+          pageRangeDisplayed={2}
+          marginPagesDisplayed={2}
+          pageCount={totalPages}
+          previousLabel="< "
+          disabledLinkClassName="btn btn-disabled opacity-50"
+          renderOnZeroPageCount={null}
+        />
+      </div>
     </Container>
   );
 }

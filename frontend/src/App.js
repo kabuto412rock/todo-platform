@@ -4,10 +4,9 @@ import "react-toastify/dist/ReactToastify.css";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 
-import PaginatedItems from "./pages/PaginatedItems";
-
 import NewNote from "./pages/NewNote";
 import Notes from "./pages/Notes";
+import Note from "./pages/Note";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -29,7 +28,9 @@ function App() {
               <Route path="notes" element={<PrivateRoute />}>
                 <Route path="/notes" element={<Notes />} />
               </Route>
-              <Route path="/pageitems" element={<PaginatedItems />} />
+              <Route path="/notes/:noteId" element={<PrivateRoute />}>
+                <Route path="/notes/:noteId" element={<Note />} />
+              </Route>
             </Routes>
           </div>
         </div>
