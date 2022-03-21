@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import ReactPaginate from "react-paginate";
+
 import { getNotes, reset } from "../features/note/noteSlice";
 import Spinner from "../components/Spinner";
 import BackButton from "../components/BackButton";
@@ -43,6 +45,7 @@ function Notes() {
       </tr>
     </>
   );
+  const handlePageClick = () => {};
 
   return (
     <Container>
@@ -55,7 +58,7 @@ function Notes() {
         <Spinner />
       ) : (
         <div className="overflow-x-auto">
-          <table className="table-fixed table w-full">
+          <table className="table-compact table w-full">
             <thead>
               <tr>
                 <th className="w-5"></th>
@@ -76,6 +79,7 @@ function Notes() {
           </table>
         </div>
       )}
+      <div className="w-full"></div>
     </Container>
   );
 }

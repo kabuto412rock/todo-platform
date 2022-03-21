@@ -47,7 +47,6 @@ function Header() {
                   <button
                     className="btn btn-success"
                     onClick={() => {
-                      // dispatch();
                       navigate("/new-note");
                     }}
                   >
