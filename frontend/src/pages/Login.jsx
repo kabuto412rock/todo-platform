@@ -92,7 +92,7 @@ function Login() {
                 />
               </div>
               <div className="form-control mt-6 flex">
-                <button className="btn btn-primary">建立</button>
+                <button className="btn btn-primary">登入</button>
               </div>
             </form>
           </div>
