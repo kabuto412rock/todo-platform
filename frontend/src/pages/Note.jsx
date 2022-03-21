@@ -2,7 +2,8 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getNote } from "../features/note/noteSlice";
-
+import { AiOutlineLock } from "react-icons/ai";
+import { BsPeopleFill } from "react-icons/bs";
 import Container from "../components/Container";
 
 function Note() {
@@ -16,25 +17,52 @@ function Note() {
 
   return (
     <Container>
-      <div>Note: {noteId}</div>
+      {/* <div>Note: {noteId}</div> */}
       <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form>
-            <div className="card-title">標題: {note?.title}</div>
+            <div className="card-title p-1 border-l-4">
+              <div>標題</div>
+              <div>{note?.title}</div>
+            </div>
             <div
               className={
-                "absolute right-3 top-3 outline rounded-sm p-2 " +
+                "absolute right-5  top-1 outline rounded-sm p-1" +
                 (note.status === "public"
                   ? "outline-lime-500 bg-lime-200 text-black"
-                  : "outline-stone-600 bg-stone-200 text-black")
+                  : "outline-stone-600 bg-yellow-200 text-black")
               }
             >
-              {note.status === "public" ? "公開" : "私人"}
+              {note.status === "public" ? (
+                <div className="flex">
+                  <BsPeopleFill />
+                  <div>公開</div>
+                </div>
+              ) : (
+                <div className="flex ">
+                  <AiOutlineLock />
+                  <div>私人</div>
+                </div>
+              )}
             </div>
             {/* <div>status: {note.status}</div> */}
-            <div>作者: {note.author}</div>
-            <div>分類: {note.category}</div>
-            <div>內容: {note.description}</div>
+            <div className="flex flex-wrap  space-x-2  border-b-2">
+              <div>
+                <span className="- bg-slate-500 text-slate-200 btn-circle p-1">
+                  作者
+                </span>
+                {note.authorName}
+              </div>
+              <div>
+                <span className="- bg-slate-500 text-slate-200 btn-circle p-1">
+                  分類
+                </span>
+                {note.category}
+              </div>
+            </div>
+            <p className=" border-2 mt-2 p-2  bg-orange-200">
+              {note.description}
+            </p>
           </form>
         </div>
       </div>
