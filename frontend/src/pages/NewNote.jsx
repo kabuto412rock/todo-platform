@@ -33,6 +33,10 @@ const NewNote = () => {
     }
 
     dispatch(reset());
+
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, isError, isSuccess, message, navigate]);
 
   const onChange = (e) => {

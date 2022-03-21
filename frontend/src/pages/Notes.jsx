@@ -22,6 +22,10 @@ function Notes() {
   useEffect(() => {
     dispatch(reset());
     dispatch(getNotes({ page, limit, q }));
+
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, limit, page, q]);
 
   const onSearch = (searchStr) => {
