@@ -31,6 +31,7 @@ function Notes() {
   } = notesData;
 
   useEffect(() => {
+    dispatch(reset());
     dispatch(getNotes({ page, limit, q }));
   }, [dispatch, limit, page, q]);
 

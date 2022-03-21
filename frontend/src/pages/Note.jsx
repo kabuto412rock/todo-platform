@@ -4,7 +4,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { getNote } from "../features/note/noteSlice";
 import { AiOutlineLock } from "react-icons/ai";
 import { BsPeopleFill } from "react-icons/bs";
+
 import Container from "../components/Container";
+import BackButton from "../components/BackButton";
 
 function Note() {
   const { noteId } = useParams();
@@ -18,11 +20,13 @@ function Note() {
   return (
     <Container>
       {/* <div>Note: {noteId}</div> */}
+
       <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form>
-            <div className="card-title p-1 border-l-4">
-              <div>標題</div>
+            <div className="card-title p-1 ">
+              <BackButton url="/notes" text="列表" />
+              {/* <div className="">標題</div> */}
               <div>{note?.title}</div>
             </div>
             <div
