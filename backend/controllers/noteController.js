@@ -72,7 +72,7 @@ const getNotes = asyncHandler(async (req, res) => {
 // @route   POST /api/notes
 // @access  Private
 const createNote = asyncHandler(async (req, res) => {
-  const { title, description, status } = req.body;
+  const { title, description, status, category } = req.body;
 
   if (!title || !description || !status) {
     res.status(400);
@@ -84,6 +84,7 @@ const createNote = asyncHandler(async (req, res) => {
     title,
     description,
     status: status || "public",
+    category,
   });
   res.status(200).json(note);
 });

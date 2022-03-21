@@ -26,13 +26,15 @@ const NewNote = () => {
       toast.error(message);
     }
 
+    dispatch(reset());
+
     if (isSuccess) {
-      dispatch(reset());
       navigate("/notes");
       return;
     }
-
-    dispatch(reset());
+    return () => {
+      dispatch(reset());
+    };
   }, [dispatch, isError, isSuccess, message, navigate]);
 
   const onChange = (e) => {

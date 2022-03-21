@@ -20,6 +20,7 @@ function Header() {
             todo-platform
           </Link>
         </div>
+
         <div className="flex-none gap-2">
           {/* <div className="form-control">
             <input
@@ -41,9 +42,21 @@ function Header() {
             className="shadow  menu menu-horizontal p-0 bg-base-100 rounded-box"
           >
             {user ? (
-              <li>
-                <button onClick={onLogout}>登出</button>
-              </li>
+              <>
+                <li>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => {
+                      navigate("/new-note");
+                    }}
+                  >
+                    新筆記
+                  </button>
+                </li>
+                <li>
+                  <button onClick={onLogout}>登出</button>
+                </li>
+              </>
             ) : (
               <>
                 <li>
