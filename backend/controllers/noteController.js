@@ -15,7 +15,7 @@ const getNote = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Note not found");
   }
-
+  // 取得author對應的用戶名稱
   const author = await User.findOne({
     _id: note.author,
   });
@@ -24,12 +24,10 @@ const getNote = asyncHandler(async (req, res) => {
   if (author) {
     authorName = author.name;
   }
-  note.authorName = authorName;
-  console.log(`author = ${authorName}`);
-  res.status(200).json({
-    ...note,
-    authorName,
-  });
+  note._doc.authorName = authorName;
+
+  console.log(`newNote = ${note}`);
+  res.status(200).json(note);
 });
 
 // @desc    Get notes
