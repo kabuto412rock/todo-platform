@@ -1,11 +1,12 @@
 const asyncHandler = require("express-async-handler");
 const Note = require("../models/noteModel");
+const User = require("../models/userModel");
 
 // @desc    Get user note
 // @route   GET /api/notes/:id
 // @access  Private
 const getNote = asyncHandler(async (req, res) => {
-  const note = await Note.findOne({
+  let note = await Note.findOne({
     _id: req.params.noteId,
     $or: [{ status: "public" }, { author: req.user.id }],
   });
@@ -14,20 +15,29 @@ const getNote = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("Note not found");
   }
-  // if (note.user.toString() !== req.user.id) {
-  //   res.status(401);
-  //   throw new Error("Not Authorized");
-  // }
 
-  res.status(200).json(note);
+  const author = await User.findOne({
+    _id: note.author,
+  });
+
+  let authorName = "不存在";
+  if (author) {
+    authorName = author.name;
+  }
+  note.authorName = authorName;
+  console.log(`author = ${authorName}`);
+  res.status(200).json({
+    ...note,
+    authorName,
+  });
 });
 
 // @desc    Get notes
 // @route   GET /api/notes/
 // @access  Private
 const getNotes = asyncHandler(async (req, res) => {
-  // p:  current page
-  // _page: get whiche page, based on _limit, default: 1
+  //      q: query keyword
+  //  _page: get whiche page, based on _limit, default: 1
   // _limit: get {limit} notes, default: 10
 
   let { _page: page, _limit: limit, _q: q } = req.query;
