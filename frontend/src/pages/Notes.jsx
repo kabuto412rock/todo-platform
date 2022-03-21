@@ -45,14 +45,26 @@ function Notes() {
       </tr>
     </>
   );
-  const handlePageClick = () => {};
 
   return (
     <Container>
       <NoteSearchBar orginal={q} onSearch={onSearch} />
-      <div>
-        page = {page} <br />
-        limit = {limit}
+      <div className="text-right">
+        <label>
+          單頁顯示
+          <select
+            value={limit}
+            onChange={(e) => {
+              setLimit(e.target.value);
+            }}
+          >
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+          </select>
+          筆
+        </label>
       </div>
       {isLoading ? (
         <Spinner />
@@ -79,7 +91,7 @@ function Notes() {
           </table>
         </div>
       )}
-      <div className="w-full"></div>
+      <div className="w-full">{/* TODO:需要建立切換頁面 */}</div>
     </Container>
   );
 }
