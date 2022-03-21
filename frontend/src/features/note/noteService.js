@@ -14,14 +14,18 @@ const createNote = async (noteData, token) => {
   return response.data;
 };
 // Get user notes
-const getNotes = async (token) => {
+const getNotes = async (searchData, token) => {
   const config = {
     headers: {
       Authorization: `Bearer ${token}`,
     },
   };
+  const { page, limit, q } = searchData;
 
-  const response = await axios.get(API_URL, config);
+  const response = await axios.get(
+    API_URL + `?_page=${page}&_limit=${limit}&_q=${q}`,
+    config
+  );
   return response.data;
 };
 

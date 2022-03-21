@@ -2,7 +2,18 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import noteService from "./noteService";
 
 const initialState = {
-  notes: [],
+  notesData: {
+    docs: [],
+    totalDocs: 0,
+    limit: 0,
+    totalPages: 0,
+    page: 0,
+    pagingCounter: 0,
+    hasPrevPage: false,
+    hasNextPage: false,
+    prevPage: null,
+    nextPage: null,
+  },
   note: {},
   isError: false,
   isSuccess: false,
@@ -33,10 +44,11 @@ export const createNote = createAsyncThunk(
 //Get user  notes
 export const getNotes = createAsyncThunk(
   "notes/getAll",
-  async (_, thunkAPI) => {
+  async (searchData, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
-      return await noteService.getNotes(token);
+      const notesData = await noteService.getNotes(searchData, token);
+      return notesData;
     } catch (error) {
       const message =
         (error.response &&
@@ -113,7 +125,7 @@ export const noteSlice = createSlice({
       .addCase(getNotes.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
-        state.notes = action.payload;
+        state.notesData = action.payload;
       })
       .addCase(getNotes.rejected, (state, action) => {
         state.isLoading = false;
