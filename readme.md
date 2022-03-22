@@ -51,8 +51,10 @@ JWT_SECRET = thisisSecret
 如果本地端沒有MongoDB可以前往[MongoDB官網](https://cloud.mongodb.com/)申請一個開發用的免費Server去連線，
 
 
-TODO: 筆記note列表(查詢、分頁)
-TODO: 編輯note
+### 版本0.3.0 [前+後端]
+1. 建立筆記
+2. 編輯筆記
+3. 筆記列表排序查詢
 
 ### 版本0.2.0 [前端]
 1. 前端環境建置(CRA,TailwindCSS,Rect-Router...)
