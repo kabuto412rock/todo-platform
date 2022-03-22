@@ -17,6 +17,9 @@ $ yarn add  react-router-dom react-toastify axios react-icons react-modal
 # and add Tailwind CSS, DaisyUI...
 ```
 
+TODO: 筆記note列表(查詢、分頁)
+TODO: 編輯note
+
 ### 版本0.2.0 [前端]
 1. 前端環境建置(CRA,TailwindCSS,Rect-Router...)
 2. 使用者登入會產生一個30天的jwt token，儲存在localStorage裡面用來後續驗證

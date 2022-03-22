@@ -20,6 +20,7 @@ function Header() {
             todo-platform
           </Link>
         </div>
+
         <div className="flex-none gap-2">
           {/* <div className="form-control">
             <input
@@ -30,17 +31,32 @@ function Header() {
           </div> */}
           <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
             <div className="w-10 rounded-full">
-              <img src="https://api.lorem.space/image/face?hash=33791" />
+              <img
+                src="https://api.lorem.space/image/face?hash=33791"
+                alt="user-img"
+              />
             </div>
           </label>
           <ul
             tabIndex="0"
-            className="p-2 shadow  menu menu-horizontal p-0 bg-base-100 rounded-box"
+            className="shadow  menu menu-horizontal p-0 bg-base-100 rounded-box"
           >
             {user ? (
-              <li>
-                <button onClick={onLogout}>登出</button>
-              </li>
+              <>
+                <li>
+                  <button
+                    className="btn btn-success"
+                    onClick={() => {
+                      navigate("/new-note");
+                    }}
+                  >
+                    新筆記
+                  </button>
+                </li>
+                <li>
+                  <button onClick={onLogout}>登出</button>
+                </li>
+              </>
             ) : (
               <>
                 <li>
