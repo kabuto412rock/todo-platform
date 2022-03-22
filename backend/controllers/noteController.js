@@ -26,7 +26,6 @@ const getNote = asyncHandler(async (req, res) => {
   }
   note._doc.authorName = authorName;
 
-  console.log(`newNote = ${note}`);
   res.status(200).json(note);
 });
 
@@ -38,7 +37,7 @@ const getNotes = asyncHandler(async (req, res) => {
   //  _page: get whiche page, based on _limit, default: 1
   // _limit: get {limit} notes, default: 10
 
-  let { _page: page, _limit: limit, _q: q } = req.query;
+  let { _page: page, _limit: limit, _q: q, _sort: sortStr } = req.query;
 
   // _page is a integer and >= 1
   if (!page) {
@@ -59,6 +58,13 @@ const getNotes = asyncHandler(async (req, res) => {
   } else if (limit > 20) {
     limit = 20;
   }
+
+  if (!sortStr) {
+    sort = { updatedAt: -1, title: 1 };
+  } else {
+    sort = JSON.parse(sortStr);
+  }
+
   const notes = await Note.paginate(
     {
       title: {
@@ -69,7 +75,7 @@ const getNotes = asyncHandler(async (req, res) => {
     {
       page,
       limit,
-      sort: { updatedAt: -1, title: 1 },
+      sort,
     }
   );
 
