@@ -12,6 +12,8 @@ import NoteItem from "../components/NoteItem";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Notes() {
+  // TODO:目前列表先選第二頁，再切換單頁顯示，會變成明明已經重設成第一頁，但底下的頁數仍然是原本的頁數。
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
@@ -100,7 +102,6 @@ function Notes() {
       </div>
 
       <div className="w-full flex justify-center">
-        {/* TODO:需要建立切換頁面 */}
         <ReactPaginate
           className="btn-group"
           previousLinkClassName="btn btn-secondary"
