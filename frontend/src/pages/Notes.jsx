@@ -9,12 +9,17 @@ import BackButton from "../components/BackButton";
 import NoteSearchBar from "../components/NoteSearchBar";
 import Container from "../components/Container";
 import NoteItem from "../components/NoteItem";
+import { useNavigate, useSearchParams } from "react-router-dom";
 
 function Notes() {
+  // TODO:目前列表先選第二頁，再切換單頁顯示，會變成明明已經重設成第一頁，但底下的頁數仍然是原本的頁數。
+
   const dispatch = useDispatch();
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(10);
-  const [q, setQ] = useState("");
+  const navigate = useNavigate();
+  let [searchParams, setSearchParams] = useSearchParams();
+  const page = searchParams.get("page") || 1;
+  const limit = searchParams.get("limit") || 10;
+  const q = searchParams.get("q") || "";
 
   const { notesData, isLoading, isSuccess } = useSelector(
     (state) => state.notes
@@ -31,18 +36,19 @@ function Notes() {
   } = notesData;
 
   useEffect(() => {
+    dispatch(reset());
     dispatch(getNotes({ page, limit, q }));
-  }, [dispatch, limit, page, q]);
+  }, [dispatch, limit, page, q, searchParams]);
 
   const onSearch = (searchStr) => {
-    setQ(searchStr);
-    setPage(1);
+    setSearchParams({ q: searchStr, page: 1, limit });
+    dispatch(getNotes({ q: searchStr, page: 1, limit }));
   };
 
   // Invoke when user click to request another page.
   const handlePageClick = (event) => {
-    console.log(`event.selected = ${event.selected}`);
-    setPage(event.selected + 1);
+    setSearchParams({ page: event.selected + 1, limit, q });
+    dispatch(getNotes({ page: event.selected + 1, limit, q }));
   };
 
   isLoading && <Spinner />;
@@ -56,8 +62,11 @@ function Notes() {
           <select
             value={limit}
             onChange={(e) => {
-              setLimit(e.target.value);
-              setPage(1);
+              setSearchParams({
+                limit: e.target.value,
+                q,
+                page: 1,
+              });
             }}
           >
             <option value="2">2</option>
@@ -93,12 +102,11 @@ function Notes() {
       </div>
 
       <div className="w-full flex justify-center">
-        {/* TODO:需要建立切換頁面 */}
         <ReactPaginate
           className="btn-group"
           previousLinkClassName="btn btn-secondary"
           nextLinkClassName="btn btn-secondary"
-          pageClassName="pageClassName  "
+          pageClassName="pageClassName"
           breakLabel="..."
           nextLabel=" >"
           activeLinkClassName="bg-primary "
@@ -107,6 +115,7 @@ function Notes() {
           marginPagesDisplayed={2}
           pageCount={totalPages}
           previousLabel="< "
+          initialPage={page - 1}
           disabledLinkClassName="btn btn-disabled opacity-50"
           renderOnZeroPageCount={null}
         />

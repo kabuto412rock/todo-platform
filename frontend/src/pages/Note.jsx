@@ -1,43 +1,141 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import Modal from "react-modal";
+
 import { getNote } from "../features/note/noteSlice";
+import { AiOutlineLock } from "react-icons/ai";
+import { BsPeopleFill } from "react-icons/bs";
 
 import Container from "../components/Container";
+import BackButton from "../components/BackButton";
+import Spinner from "../components/Spinner";
+import { FaPlus, FaPen } from "react-icons/fa";
+
+const customStyles = {
+  content: {
+    width: "90%",
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+Modal.setAppElement("#root");
 
 function Note() {
-  const { noteId } = useParams();
   const dispatch = useDispatch();
-  const { note } = useSelector((state) => state.notes);
+  const { note, isLoading } = useSelector((state) => state.notes);
+  const { noteId } = useParams();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
 
   useEffect(() => {
     dispatch(getNote(noteId));
   }, [dispatch, noteId]);
 
+  // Open/close modal
+  const openModal = () => {
+    setModalIsOpen(true);
+  };
+  const closeModal = () => setModalIsOpen(false);
+
+  const onNoteSubmit = (e) => {
+    e.preventDefault();
+    closeModal();
+  };
+
+  isLoading && <Spinner />;
+
   return (
     <Container>
-      <div>Note: {noteId}</div>
+      {/* <div>Note: {noteId}</div> */}
+
       <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form>
-            <div className="card-title">標題: {note?.title}</div>
-            <div
-              className={
-                "absolute right-3 top-3 outline rounded-sm p-2 " +
-                (note.status === "public"
-                  ? "outline-lime-500 bg-lime-200 text-black"
-                  : "outline-stone-600 bg-stone-200 text-black")
-              }
-            >
-              {note.status === "public" ? "公開" : "私人"}
+            <div>
+              <BackButton url={-1} text="返回" />
+              <button type="button" className="btn" onClick={openModal}>
+                <FaPen /> 編輯
+              </button>
+              <div
+                className={
+                  "absolute right-5  top-3 outline rounded-sm p-1 right-2" +
+                  (note.status === "public"
+                    ? "outline-lime-500 bg-lime-200 text-black"
+                    : "outline-stone-600 bg-yellow-200 text-black")
+                }
+              >
+                {note.status === "public" ? (
+                  <div className="flex">
+                    <BsPeopleFill />
+                    <div>公開</div>
+                  </div>
+                ) : (
+                  <div className="flex ">
+                    <AiOutlineLock />
+                    <div>私人</div>
+                  </div>
+                )}
+              </div>
             </div>
+            <div className="card-title p-1 ">
+              {/* <div className="">標題</div> */}
+              <div>{note?.title}</div>
+            </div>
+
             {/* <div>status: {note.status}</div> */}
-            <div>作者: {note.author}</div>
-            <div>分類: {note.category}</div>
-            <div>內容: {note.description}</div>
+            <div className="flex flex-wrap  space-x-2  border-b-2">
+              <div>
+                <span className="- bg-slate-500 text-slate-200 btn-circle p-1">
+                  作者
+                </span>
+                {note.authorName}
+              </div>
+              <div>
+                <span className="- bg-slate-500 text-slate-200 btn-circle p-1">
+                  分類
+                </span>
+                {note.category}
+              </div>
+            </div>
+            <p className=" border-2 mt-2 p-2  bg-orange-200">
+              {note.description}
+            </p>
           </form>
         </div>
       </div>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        style={customStyles}
+        contentLabel="Add Note"
+      >
+        <h2>Add Note</h2>
+        <button className="btn-close" onClick={closeModal}>
+          X
+        </button>
+        <form onSubmit={onNoteSubmit}>
+          <div className="form-group">
+            <textarea
+              name="noteText"
+              id="noteText"
+              className="form-control"
+              placeholder="Note text"
+              // value={noteText}
+              // onChange={(e) => setNoteText(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="form-group">
+            <button className="btn" type="submit">
+              Submit
+            </button>
+          </div>
+        </form>
+      </Modal>
     </Container>
   );
 }
