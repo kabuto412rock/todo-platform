@@ -26,7 +26,6 @@ const getNote = asyncHandler(async (req, res) => {
   }
   note._doc.authorName = authorName;
 
-  console.log(`newNote = ${note}`);
   res.status(200).json(note);
 });
 
@@ -66,7 +65,6 @@ const getNotes = asyncHandler(async (req, res) => {
     sort = JSON.parse(sortStr);
   }
 
-  console.log(`sort = ${JSON.stringify(sort)}`);
   const notes = await Note.paginate(
     {
       title: {

@@ -1,25 +1,23 @@
+import ReactPaginate from "react-paginate";
 import { useEffect, useRef, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import ReactPaginate from "react-paginate";
+import { useSearchParams } from "react-router-dom";
+
+import Spinner from "../components/Spinner";
+import Container from "../components/Container";
+import NoteSearchBar from "../components/NoteSearchBar";
+import NoteItem from "../components/NoteItem";
 
 import { getNotes, reset } from "../features/note/noteSlice";
-import Spinner from "../components/Spinner";
-import BackButton from "../components/BackButton";
-
-import NoteSearchBar from "../components/NoteSearchBar";
-import Container from "../components/Container";
-import NoteItem from "../components/NoteItem";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import NotesSearchHeader from "../components/NotesSearchHeader";
 
 function Notes() {
-  // TODO:目前列表先選第二頁，再切換單頁顯示，會變成明明已經重設成第一頁，但底下的頁數仍然是原本的頁數。
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   let [searchParams, setSearchParams] = useSearchParams();
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 10;
   const q = searchParams.get("q") || "";
+  const sort = searchParams.get("sort") || "{}";
 
   const { notesData, isLoading, isSuccess } = useSelector(
     (state) => state.notes
@@ -35,25 +33,35 @@ function Notes() {
     nextPage,
   } = notesData;
 
-  // 預設會先跟Redux要求重置notes的狀態，並取得當前筆記
+  // 取得當前筆記列表
   useEffect(() => {
-    dispatch(getNotes({ page, limit, q }));
-  }, [dispatch, limit, page, q, searchParams]);
+    dispatch(getNotes({ page, limit, q, sort }));
+  }, [dispatch, limit, page, q, searchParams, sort]);
 
   // 當按下搜尋按鈕時
   const onSearch = (searchStr) => {
-    setSearchParams({ q: searchStr, page: 1, limit });
+    setSearchParams({ q: searchStr, page: 1, limit, sort });
     // dispatch(getNotes({ q: searchStr, page: 1, limit }));
   };
 
+  // const [sort, setSort] = useState({
+  //   updatedAt: -1,
+  // });
   // 當排序選項被觸發時
-  const handleSort = (e) => {
-    const sortTarget = e.target.sort;
+  const handleSort = (sortTarget) => {
+    // setSort({
+    //   [sortTarget]: sort[sortTarget] ? sort[sortTarget] * -1 : 1,
+    // });
+    const sortJSON = JSON.parse(sort);
+    const newSort = JSON.stringify({
+      [sortTarget]: sortJSON[sortTarget] ? sortJSON[sortTarget] * -1 : 1,
+    });
+    setSearchParams({ q, page: 1, limit, sort: newSort });
   };
 
   // 當列表頁面下方的頁數被點擊時
   const handlePageClick = (event) => {
-    setSearchParams({ page: event.selected + 1, limit, q });
+    setSearchParams({ page: event.selected + 1, limit, q, sort });
     // dispatch(getNotes({ page: event.selected + 1, limit, q }));
   };
 
@@ -72,6 +80,7 @@ function Notes() {
                 limit: e.target.value,
                 q,
                 page: 1,
+                sort,
               });
             }}
           >
@@ -87,20 +96,7 @@ function Notes() {
 
       <div className="overflow-x-auto mb-3">
         <table className="table-compact table w-full">
-          <thead>
-            <tr>
-              <th className="w-5"></th>
-              <th className="w-10" sort="category" onClick={handleSort}>
-                分類
-              </th>
-              <th className="w-50" sort="title" onClick={handleSort}>
-                標題
-              </th>
-              <th className="" sort="updatedAt" onClick={handleSort}>
-                更新時間
-              </th>
-            </tr>
-          </thead>
+          <NotesSearchHeader sort={sort} handleSort={handleSort} />
           <tbody>
             {docs.map((note, index) => (
               <NoteItem
@@ -112,7 +108,6 @@ function Notes() {
           </tbody>
         </table>
       </div>
-
       <div className="w-full flex justify-center">
         <ReactPaginate
           className="btn-group"
@@ -125,9 +120,9 @@ function Notes() {
           onPageChange={handlePageClick}
           pageRangeDisplayed={2}
           marginPagesDisplayed={2}
+          forcePage={page - 1}
           pageCount={totalPages}
           previousLabel="< "
-          initialPage={page - 1}
           disabledLinkClassName="btn btn-disabled opacity-50"
           renderOnZeroPageCount={null}
         />

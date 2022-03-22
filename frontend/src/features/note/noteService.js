@@ -20,10 +20,10 @@ const getNotes = async (searchData, token) => {
       Authorization: `Bearer ${token}`,
     },
   };
-  const { page, limit, q } = searchData;
+  const { page, limit, q, sort } = searchData;
 
   const response = await axios.get(
-    API_URL + `?_page=${page}&_limit=${limit}&_q=${q}`,
+    API_URL + `?_page=${page}&_limit=${limit}&_q=${q}&_sort=${sort}`,
     config
   );
   return response.data;
