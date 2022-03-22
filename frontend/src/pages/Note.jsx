@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { FaPen } from "react-icons/fa";
 import Modal from "react-modal";
-
-import { getNote } from "../features/note/noteSlice";
+import { toast } from "react-toastify";
+import { getNote, updateNote } from "../features/note/noteSlice";
 import { AiOutlineLock } from "react-icons/ai";
 import { BsPeopleFill } from "react-icons/bs";
 
 import Container from "../components/Container";
 import BackButton from "../components/BackButton";
+import NoteForm from "../components/NoteForm";
 import Spinner from "../components/Spinner";
-import { FaPlus, FaPen } from "react-icons/fa";
 
 const customStyles = {
   content: {
@@ -28,13 +29,33 @@ Modal.setAppElement("#root");
 
 function Note() {
   const dispatch = useDispatch();
-  const { note, isLoading } = useSelector((state) => state.notes);
+  const { note, isLoading, isError, message } = useSelector(
+    (state) => state.notes
+  );
   const { noteId } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  const [formData, setFormData] = useState({});
 
   useEffect(() => {
     dispatch(getNote(noteId));
   }, [dispatch, noteId]);
+
+  useEffect(() => {
+    if (isError) {
+      toast.error(message);
+    }
+  }, [dispatch, isError, message]);
+  useEffect(() => {
+    if (note && note?.title) {
+      setFormData({
+        title: note.title,
+        description: note.description,
+        status: note.status,
+        category: note.category,
+      });
+    }
+  }, [note, isLoading]);
 
   // Open/close modal
   const openModal = () => {
@@ -44,7 +65,16 @@ function Note() {
 
   const onNoteSubmit = (e) => {
     e.preventDefault();
+    // console.log(`updated note = ${JSON.stringify(formData)}`);
+    dispatch(updateNote({ noteId, formData }));
     closeModal();
+  };
+
+  const onChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      [e.target.id]: e.target.value,
+    }));
   };
 
   isLoading && <Spinner />;
@@ -114,27 +144,17 @@ function Note() {
         style={customStyles}
         contentLabel="Add Note"
       >
-        <h2>Add Note</h2>
+        <h2></h2>
         <button className="btn-close" onClick={closeModal}>
           X
         </button>
-        <form onSubmit={onNoteSubmit}>
-          <div className="form-group">
-            <textarea
-              name="noteText"
-              id="noteText"
-              className="form-control"
-              placeholder="Note text"
-              // value={noteText}
-              // onChange={(e) => setNoteText(e.target.value)}
-            ></textarea>
-          </div>
-          <div className="form-group">
-            <button className="btn" type="submit">
-              Submit
-            </button>
-          </div>
-        </form>
+        <NoteForm
+          noteTitle={<>編輯筆記</>}
+          formData={formData}
+          setFormData={setFormData}
+          onChange={onChange}
+          onSubmit={onNoteSubmit}
+        />
       </Modal>
     </Container>
   );

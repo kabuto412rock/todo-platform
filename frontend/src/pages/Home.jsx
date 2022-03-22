@@ -29,7 +29,7 @@ function Home() {
             </a>
             開放原始碼的協作平台， 所以你也可以自己搭建屬於你的平台 。
           </p>
-          <div class="flex space-x-3">
+          <div className="flex space-x-3">
             <button
               className="btn btn-primary flex-1"
               onClick={() => navigate("/new-note")}

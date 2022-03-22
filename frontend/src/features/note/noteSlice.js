@@ -82,10 +82,11 @@ export const getNote = createAsyncThunk(
 
 // Update note
 export const updateNote = createAsyncThunk(
-  "notes/close",
-  async (noteId, formData, thunkAPI) => {
+  "notes/update",
+  async (newNote, thunkAPI) => {
     try {
       const token = thunkAPI.getState().auth.user.token;
+      const { noteId, formData } = newNote;
       return await noteService.updateNote(noteId, formData, token);
     } catch (error) {
       const message =
@@ -146,9 +147,10 @@ export const noteSlice = createSlice({
       .addCase(updateNote.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(updateNote.fulfilled, (state) => {
+      .addCase(updateNote.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.note = action.payload;
       })
       .addCase(updateNote.rejected, (state, action) => {
         state.isLoading = false;
