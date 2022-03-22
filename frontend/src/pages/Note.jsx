@@ -25,7 +25,7 @@ function Note() {
         <div className="card-body ">
           <form>
             <div className="card-title p-1 ">
-              <BackButton url="/notes" text="列表" />
+              <BackButton url={-1} text="返回" />
               {/* <div className="">標題</div> */}
               <div>{note?.title}</div>
             </div>
