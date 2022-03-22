@@ -35,20 +35,26 @@ function Notes() {
     nextPage,
   } = notesData;
 
+  // 預設會先跟Redux要求重置notes的狀態，並取得當前筆記
   useEffect(() => {
-    dispatch(reset());
     dispatch(getNotes({ page, limit, q }));
   }, [dispatch, limit, page, q, searchParams]);
 
+  // 當按下搜尋按鈕時
   const onSearch = (searchStr) => {
     setSearchParams({ q: searchStr, page: 1, limit });
-    dispatch(getNotes({ q: searchStr, page: 1, limit }));
+    // dispatch(getNotes({ q: searchStr, page: 1, limit }));
   };
 
-  // Invoke when user click to request another page.
+  // 當排序選項被觸發時
+  const handleSort = (e) => {
+    const sortTarget = e.target.sort;
+  };
+
+  // 當列表頁面下方的頁數被點擊時
   const handlePageClick = (event) => {
     setSearchParams({ page: event.selected + 1, limit, q });
-    dispatch(getNotes({ page: event.selected + 1, limit, q }));
+    // dispatch(getNotes({ page: event.selected + 1, limit, q }));
   };
 
   isLoading && <Spinner />;
@@ -84,9 +90,15 @@ function Notes() {
           <thead>
             <tr>
               <th className="w-5"></th>
-              <th className="w-10">分類</th>
-              <th className="w-50">標題</th>
-              <th className="">時間</th>
+              <th className="w-10" sort="category" onClick={handleSort}>
+                分類
+              </th>
+              <th className="w-50" sort="title" onClick={handleSort}>
+                標題
+              </th>
+              <th className="" sort="updatedAt" onClick={handleSort}>
+                更新時間
+              </th>
             </tr>
           </thead>
           <tbody>
