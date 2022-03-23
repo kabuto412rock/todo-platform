@@ -65,3 +65,6 @@ JWT_SECRET = thisisSecret
 1. 使用者登入、註冊需要的後端API
 2. 建立MongoDB連線的設定
 3. 建立Mongo
+
+
+TODO:重整時候要有Loading的圖示出現
