@@ -132,7 +132,7 @@ function Note() {
                 {note.category}
               </div>
             </div>
-            <p className=" border-2 mt-2 p-2  bg-orange-200">
+            <p className=" border-2 mt-2 p-2  bg-orange-200 whitespace-pre-wrap	">
               {note.description}
             </p>
           </form>
