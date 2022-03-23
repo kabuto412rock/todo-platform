@@ -17,7 +17,7 @@ function Notes() {
   const page = searchParams.get("page") || 1;
   const limit = searchParams.get("limit") || 10;
   const q = searchParams.get("q") || "";
-  const sort = searchParams.get("sort") || "{}";
+  const sort = searchParams.get("sort") || '{"updatedAt":-1}';
 
   const { notesData, isLoading, isSuccess } = useSelector(
     (state) => state.notes

@@ -60,10 +60,10 @@ const getNotes = asyncHandler(async (req, res) => {
   }
 
   if (!sortStr) {
-    sort = { updatedAt: -1, title: 1 };
-  } else {
-    sort = JSON.parse(sortStr);
+    sortStr = '{"updatedAt":-1}';
   }
+
+  let sort = JSON.parse(sortStr);
 
   const notes = await Note.paginate(
     {
