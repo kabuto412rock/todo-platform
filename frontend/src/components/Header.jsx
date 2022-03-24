@@ -35,8 +35,8 @@ function Header() {
               className="w-10 rounded-full"
               style={{
                 display: "flex",
-                "flex-direction": "column",
-                "justify-content": "center",
+                flexDirection: "column",
+                justifyContent: "center",
               }}
             >
               {/* <img
