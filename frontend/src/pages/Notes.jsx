@@ -100,7 +100,7 @@ function Notes() {
         <table className="table-compact table w-full">
           <NotesSearchHeader sort={sort} handleSort={handleSort} />
           <tbody>
-            {docs.map((note, index) => (
+            {docs?.map((note, index) => (
               <NoteItem
                 note={note}
                 index={(page - 1) * limit + index + 1}

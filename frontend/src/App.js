@@ -10,6 +10,7 @@ import Note from "./pages/Note";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
+import Error from "./pages/Error";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               <Route path="/notes/:noteId" element={<PrivateRoute />}>
                 <Route path="/notes/:noteId" element={<Note />} />
               </Route>
+              <Route path="*" element={<Error />} />
             </Routes>
           </div>
         </div>

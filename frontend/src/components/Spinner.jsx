@@ -10,12 +10,11 @@ function Spinner() {
         height: "100%",
         "z-index": "9999999999",
         overflow: "hidden",
-        background: "white",
-        opacity: "0.5",
+        opacity: "",
       }}
     >
       <div className="m-auto w-fit  h-screen flex flex-row items-center">
-        <div className="loader"></div>
+        <div className="loader opacity-100"></div>
       </div>
     </div>
   );
