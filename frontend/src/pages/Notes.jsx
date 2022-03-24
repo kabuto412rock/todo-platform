@@ -35,6 +35,7 @@ function Notes() {
 
   // 取得當前筆記列表
   useEffect(() => {
+    dispatch(reset());
     dispatch(getNotes({ page, limit, q, sort }));
   }, [dispatch, limit, page, q, searchParams, sort]);
 
