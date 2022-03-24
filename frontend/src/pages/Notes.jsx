@@ -64,9 +64,9 @@ function Notes() {
     setSearchParams({ page: event.selected + 1, limit, q, sort });
     // dispatch(getNotes({ page: event.selected + 1, limit, q }));
   };
-
-  isLoading && <Spinner />;
-
+  if (isLoading) {
+    return <Spinner />;
+  }
   return (
     <Container>
       <NoteSearchBar orginal={q} onSearch={onSearch} />

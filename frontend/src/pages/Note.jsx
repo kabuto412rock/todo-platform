@@ -76,8 +76,9 @@ function Note() {
       [e.target.id]: e.target.value,
     }));
   };
-
-  isLoading && <Spinner />;
+  if (isLoading) {
+    return <Spinner />;
+  }
 
   return (
     <Container>
