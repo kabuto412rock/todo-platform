@@ -1,11 +1,16 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { FaPen } from "react-icons/fa";
 import Modal from "react-modal";
 import { toast } from "react-toastify";
-import { getNote, updateNote } from "../features/note/noteSlice";
-import { AiOutlineLock } from "react-icons/ai";
+import {
+  deleteNote,
+  getNote,
+  updateNote,
+  reset,
+} from "../features/note/noteSlice";
+import { AiFillDelete, AiOutlineLock } from "react-icons/ai";
 import { BsPeopleFill } from "react-icons/bs";
 
 import Container from "../components/Container";
@@ -29,13 +34,17 @@ Modal.setAppElement("#root");
 
 function Note() {
   const dispatch = useDispatch();
-  const { note, isLoading, isError, message } = useSelector(
+  const naviagte = useNavigate();
+  const { note, isLoading, isError, message, isDeleteSuccess } = useSelector(
     (state) => state.notes
   );
+  const { user } = useSelector((state) => state.auth);
+
   const { noteId } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [formData, setFormData] = useState({});
+  const isAuhtor = note && user && note.author === user._id;
 
   useEffect(() => {
     dispatch(getNote(noteId));
@@ -45,7 +54,13 @@ function Note() {
     if (isError) {
       toast.error(message);
     }
-  }, [dispatch, isError, message]);
+
+    if (isDeleteSuccess) {
+      toast.success("成功刪除筆記");
+      naviagte("/notes");
+    }
+  }, [dispatch, isDeleteSuccess, isError, message, naviagte]);
+
   useEffect(() => {
     if (note && note?.title) {
       setFormData({
@@ -76,22 +91,42 @@ function Note() {
       [e.target.id]: e.target.value,
     }));
   };
-  if (isLoading) {
-    return <Spinner />;
-  }
+
+  const onDelete = (e) => {
+    const needDelete = window.confirm(
+      `請問是否真的要刪除這篇"${note.title}"筆記？`
+    );
+    if (needDelete) {
+      dispatch(deleteNote(noteId));
+    }
+  };
 
   return (
     <Container>
-      {/* <div>Note: {noteId}</div> */}
-
+      {isLoading && <Spinner />}
       <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form>
             <div>
               <BackButton url={-1} text="返回" />
-              <button type="button" className="btn" onClick={openModal}>
-                <FaPen /> 編輯
-              </button>
+              {isAuhtor && (
+                <>
+                  <button
+                    type="button"
+                    className="btn btn-success"
+                    onClick={openModal}
+                  >
+                    <FaPen /> 編輯
+                  </button>
+                  <button
+                    type="button"
+                    className="btn btn-warning btn-outline"
+                    onClick={onDelete}
+                  >
+                    <AiFillDelete /> 刪除
+                  </button>
+                </>
+              )}
               <div
                 className={
                   "absolute right-5  top-3 outline rounded-sm p-1 right-2" +
@@ -145,7 +180,6 @@ function Note() {
         style={customStyles}
         contentLabel="Add Note"
       >
-        <h2></h2>
         <button className="btn-close" onClick={closeModal}>
           X
         </button>

@@ -35,6 +35,7 @@ function Notes() {
 
   // 取得當前筆記列表
   useEffect(() => {
+    dispatch(reset());
     dispatch(getNotes({ page, limit, q, sort }));
   }, [dispatch, limit, page, q, searchParams, sort]);
 
@@ -64,11 +65,12 @@ function Notes() {
     setSearchParams({ page: event.selected + 1, limit, q, sort });
     // dispatch(getNotes({ page: event.selected + 1, limit, q }));
   };
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
   return (
     <Container>
+      {isLoading && <Spinner />}
       <NoteSearchBar orginal={q} onSearch={onSearch} />
       <div className="text-right">
         <label>

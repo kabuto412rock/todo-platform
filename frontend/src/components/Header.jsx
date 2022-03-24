@@ -36,6 +36,7 @@ function Header() {
                 alt="user-img"
               />
             </div>
+            {user?.name}
           </label>
           <ul
             tabIndex="0"
