@@ -32,10 +32,13 @@ function Note() {
   const { note, isLoading, isError, message } = useSelector(
     (state) => state.notes
   );
+  const { user } = useSelector((state) => state.auth);
+
   const { noteId } = useParams();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   const [formData, setFormData] = useState({});
+  const isAuhtor = note && user && note.author === user._id;
 
   useEffect(() => {
     dispatch(getNote(noteId));
@@ -82,16 +85,16 @@ function Note() {
 
   return (
     <Container>
-      {/* <div>Note: {noteId}</div> */}
-
       <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form>
             <div>
               <BackButton url={-1} text="返回" />
-              <button type="button" className="btn" onClick={openModal}>
-                <FaPen /> 編輯
-              </button>
+              {isAuhtor && (
+                <button type="button" className="btn" onClick={openModal}>
+                  <FaPen /> 編輯
+                </button>
+              )}
               <div
                 className={
                   "absolute right-5  top-3 outline rounded-sm p-1 right-2" +
