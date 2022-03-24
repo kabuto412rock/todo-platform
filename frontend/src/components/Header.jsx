@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logout, reset } from "../features/auth/authSlice";
+import { FaRegSmileBeam } from "react-icons/fa";
 function Header() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -30,13 +31,21 @@ function Header() {
             />
           </div> */}
           <label tabIndex="0" className="btn btn-ghost btn-circle avatar">
-            <div className="w-10 rounded-full">
-              <img
+            <div
+              className="w-10 rounded-full"
+              style={{
+                display: "flex",
+                "flex-direction": "column",
+                "justify-content": "center",
+              }}
+            >
+              {/* <img
                 src="https://api.lorem.space/image/face?hash=33791"
                 alt="user-img"
-              />
+              /> */}
+              <div>{user?.name}</div>
+              {/* <img src={"../assets/home2.jpg"} alt="user-img" /> */}
             </div>
-            {user?.name}
           </label>
           <ul
             tabIndex="0"
