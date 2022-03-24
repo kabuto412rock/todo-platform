@@ -79,12 +79,13 @@ function Note() {
       [e.target.id]: e.target.value,
     }));
   };
-  if (isLoading) {
-    return <Spinner />;
-  }
+  // if (isLoading) {
+  //   return <Spinner />;
+  // }
 
   return (
     <Container>
+      {isLoading && <Spinner />}
       <div className="card w-full bg-base-100 shadow-xl">
         <div className="card-body ">
           <form>
