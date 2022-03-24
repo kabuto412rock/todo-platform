@@ -19,6 +19,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   isNeedBack: false,
+  isDeleteSuccess: false,
   message: "",
 };
 
@@ -100,6 +101,24 @@ export const updateNote = createAsyncThunk(
   }
 );
 
+//Delet  user  note
+export const deleteNote = createAsyncThunk(
+  "notes/delete",
+  async (noteId, thunkAPI) => {
+    try {
+      const token = thunkAPI.getState().auth.user.token;
+      return await noteService.deleteNote(noteId, token);
+    } catch (error) {
+      const message =
+        (error.response &&
+          error.response.data &&
+          error.response.data.message) ||
+        error.message ||
+        error.toString();
+      return thunkAPI.rejectWithValue(message);
+    }
+  }
+);
 export const noteSlice = createSlice({
   name: "notes",
   initialState,
@@ -153,6 +172,18 @@ export const noteSlice = createSlice({
         state.note = action.payload;
       })
       .addCase(updateNote.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = true;
+        state.message = action.payload;
+      })
+      .addCase(deleteNote.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(deleteNote.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isDeleteSuccess = true;
+      })
+      .addCase(deleteNote.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = true;
         state.message = action.payload;
