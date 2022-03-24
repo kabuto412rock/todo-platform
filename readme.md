@@ -50,6 +50,10 @@ JWT_SECRET = thisisSecret
 
 如果本地端沒有MongoDB可以前往[MongoDB官網](https://cloud.mongodb.com/)申請一個開發用的免費Server去連線，
 
+### 版本 0.3.2
+1. 重整時候Notes要有Loading的圖示出現
+2. 筆記明細只有在本人觀看時，才可看到編輯刪除的按鈕
+3. 筆記明細可刪除功能
 
 ### 版本0.3.0 [前+後端]
 1. 建立筆記
