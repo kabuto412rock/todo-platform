@@ -1,0 +1,39 @@
+version: "3.9" # optional since v1.27.0
+services:
+  frontend:
+    image: node:14-alpine
+    command: sh -c "yarn install && yarn run start"
+    ports:
+      - 3000:3000
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+
+  backend:
+    image: node:14-alpine
+    command: sh -c "yarn install && yarn run dev"
+    ports:
+      - 5000:5000
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    environment:
+      - MONGO_URI=mongodb://root:example@mongo:27017/todo-db?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&directConnection=true&ssl=false
+      - NODE_ENV=development
+      - PORT=5000
+      - JWT_SECRET=i28akjkdskl
+
+  mongo:
+    image: mongo
+    container_name: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"
+    volumes:
+      - todo-mongo-data:/data/db
+volumes:
+  todo-mongo-data:
+    external: true

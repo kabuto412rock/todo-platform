@@ -4,9 +4,9 @@
   "description": "This is a todos system in the web site",
   "main": "server.js",
   "scripts": {
-    "server": "nodemon backend/server.js",
+    "start": "nodemon src/server.js",
     "client": "npm run start --prefix frontend",
-    "dev": "concurrently \"npm run server\" \"npm run client\""
+    "dev": "nodemon src/server.js"
   },
   "author": "zongjia",
   "license": "MIT",
