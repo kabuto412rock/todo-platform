@@ -10,7 +10,7 @@
 ![todo-platform的新增](./imgs/new-note.png)
 
 
-# 環境建置
+# 啟動環境（Docker）
 ```bash
 # 複製todo-platform的儲存庫
  $ git clone https://github.com/kabuto412rock/todo-platform.git
@@ -18,12 +18,13 @@
 # 進入儲存庫內的資料夾
 $ cd todo-platform 
 
-# .env 儲存環境變數的檔案
-(todo-platform) $ touch .nev
+# 使用Docker啟動服務
+(todo-platform) $ docker-compose up -d
 ```
-接著在.env檔案裡面放入對應的環境變數(4個):
+
+## Docker 容器內的環境變數
 ```bash
-# .env
+# docker-compose.yaml
 # 建置環境, NODE_ENV = {開發環境}
 NODE_ENV = development
 # 後端的連線PORT, PORT=5000
@@ -34,21 +35,8 @@ MONGO_URI = mongodb+srv....
 JWT_SECRET = thisisSecret
 ```
 
-建好環境變數後，安裝前後端的依賴函式庫:
-```bash
-# 最外層目錄./todo-platform 執行後端環境初始化
-(todo-platform) $ yarn  
-
-# 進入前端目錄frontend 執行前端環境初始化
-(todo-platform/frontend) $ cd frontend
-(todo-platform/frontend) $ yarn  
-
-# 回到todo-platform目錄底下開始執行系統
-(todo-platform/frontend) $ cd ..
-(todo-platform) $ npm run dev
-```
-
-如果本地端沒有MongoDB可以前往[MongoDB官網](https://cloud.mongodb.com/)申請一個開發用的免費Server去連線，
+如果本地端沒有MongoDB，不想建置在Docker容器內，
+可以前往[MongoDB官網](https://cloud.mongodb.com/)申請一個開發用的免費DB來連線，
 
 ### 版本 0.3.2
 1. 重整時候Notes要有Loading的圖示出現
