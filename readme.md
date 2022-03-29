@@ -38,7 +38,11 @@ JWT_SECRET = thisisSecret
 如果本地端沒有MongoDB，不想建置在Docker容器內，
 可以前往[MongoDB官網](https://cloud.mongodb.com/)申請一個開發用的免費DB來連線，
 
-### 版本 0.3.2
+## 版本紀錄
+### 版本0.3.4
+1. 將開發環境移入Docker容器中啟動
+
+### 版本0.3.2
 1. 重整時候Notes要有Loading的圖示出現
 2. 筆記明細只有在本人觀看時，才可看到編輯刪除的按鈕
 3. 筆記明細可刪除功能
