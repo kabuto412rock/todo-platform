@@ -32,3 +32,8 @@ services:
       MONGO_INITDB_ROOT_PASSWORD: example
     ports:
       - "27017:27017"
+    volumes:
+      - todo-mongo-data:/data/db
+volumes:
+  todo-mongo-data:
+    external: true
