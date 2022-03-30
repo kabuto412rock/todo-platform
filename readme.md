@@ -39,8 +39,9 @@ JWT_SECRET = thisisSecret
 可以前往[MongoDB官網](https://cloud.mongodb.com/)申請一個開發用的免費DB來連線，
 
 ## 版本紀錄
-### 版本0.3.4
-1. 將開發環境移入Docker容器中啟動
+### 版本0.3.5
+1. 建立部屬用的Docker設定
+2. 建立開發用的Docker設定
 
 ### 版本0.3.2
 1. 重整時候Notes要有Loading的圖示出現
