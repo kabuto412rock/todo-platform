@@ -10,7 +10,7 @@
 ![todo-platform的新增](./imgs/new-note.png)
 
 
-# 啟動環境（Docker）
+# 啟動開發環境（Docker）
 ```bash
 # 複製todo-platform的儲存庫
  $ git clone https://github.com/kabuto412rock/todo-platform.git
@@ -18,9 +18,22 @@
 # 進入儲存庫內的資料夾
 $ cd todo-platform 
 
-# 使用Docker啟動服務
+# Docker啟動開發容器[預設後端PORT:5000, 前端PORT:3000 ]
 (todo-platform) $ docker-compose up -d
+
+# 關閉開發容器 
+(todo-platform) $ docker-compose down
 ```
+
+# 啟動部屬環境 (Docker)
+```bash
+# 啟動部屬容器 [預設後端PORT:5000，前端已編譯成靜態頁面在後端路由]
+(todo-platform) $ docker-compose -f docker-compose-production.yaml up -d
+# 關閉部屬容器
+(todo-platform) $ docker-compose down
+
+```
+
 
 ## Docker 容器內的環境變數
 ```bash
