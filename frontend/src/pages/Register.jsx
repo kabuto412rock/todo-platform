@@ -40,6 +40,10 @@ function Register() {
       toast.error("有欄位尚未填完...");
       return;
     }
+    if (password.length < 9) {
+      toast.error("密碼至少要有9碼");
+      return;
+    }
 
     if (password !== password2) {
       toast.error("第二次登打的密碼有誤");

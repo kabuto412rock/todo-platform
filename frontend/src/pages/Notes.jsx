@@ -42,17 +42,10 @@ function Notes() {
   // 當按下搜尋按鈕時
   const onSearch = (searchStr) => {
     setSearchParams({ q: searchStr, page: 1, limit, sort });
-    // dispatch(getNotes({ q: searchStr, page: 1, limit }));
   };
 
-  // const [sort, setSort] = useState({
-  //   updatedAt: -1,
-  // });
   // 當排序選項被觸發時
   const handleSort = (sortTarget) => {
-    // setSort({
-    //   [sortTarget]: sort[sortTarget] ? sort[sortTarget] * -1 : 1,
-    // });
     const sortJSON = JSON.parse(sort);
     const newSort = JSON.stringify({
       [sortTarget]: sortJSON[sortTarget] ? sortJSON[sortTarget] * -1 : 1,
@@ -63,11 +56,8 @@ function Notes() {
   // 當列表頁面下方的頁數被點擊時
   const handlePageClick = (event) => {
     setSearchParams({ page: event.selected + 1, limit, q, sort });
-    // dispatch(getNotes({ page: event.selected + 1, limit, q }));
   };
-  // if (isLoading) {
-  //   return <Spinner />;
-  // }
+
   return (
     <Container>
       {isLoading && <Spinner />}
